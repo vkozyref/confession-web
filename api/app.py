@@ -3,24 +3,20 @@ from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
 
 app = Flask(__name__)
-# bot = ChatBot(
-#     'Norman',
-#     storage_adapter='chatterbot.storage.SQLStorageAdapter',
-#     database_uri='sqlite:///database.sqlite3'
-# )
-
 
 bot = ChatBot('Ron Obvious')
-
 # Create a new trainer for the chatbot
 trainer = ChatterBotCorpusTrainer(bot)
-
 # Train the chatbot based on the english corpus
-trainer.train("./lang/common.yml")
+# trainer.train("./lang/common.yml")
+trainer.train(
+    "chatterbot.corpus.english"
+)
 
 @app.route('/')
 def hello():
-    return "Hello World!"
+    return 'Hello World!'
+
 
 @app.route('/chat', methods=['POST'])
 def chat():
