@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request, jsonify, make_response
 from chatterbot import ChatBot
 
 app = Flask(__name__)
@@ -12,20 +12,21 @@ bot = ChatBot(
 def hello():
     return "Hello World!"
 
-@app.route("/chat", methods=["POST"])
-def chat():
-    text = request.form["text"]
+@app.route('/chat', methods=['POST'])
+def chat():    
+    return request.form['text']
+    text = request.form['text']
 
     if not text:
-        return JsonResponse({
+        return make_response(jsonify({
             'text': [
                 'The attribute "text" is required.'
             ]
-        }, status=400)
+        }), status=400)
 
     response = bot.get_response(input_data)
     response_data = response.serialize()
-    return JsonResponse(response_data, status=200)
+    return make_response(jsonify(response_data), status=200)
 
 
 if __name__ == '__main__':
